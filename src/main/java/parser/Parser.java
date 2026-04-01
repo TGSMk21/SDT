@@ -130,7 +130,7 @@ public class Parser {
 
         while (scanner.hasNextLine()) {
             String input = scanner.nextLine().trim();
-            if (input.equals("quit")) break;
+            if (input.equalsIgnoreCase("quit")) break;
             if (input.isEmpty()) continue;
 
             System.out.print("Postfix: ");
