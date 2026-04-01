@@ -10,6 +10,11 @@ import lexer.util.RegexUtil;
  */
 
 public class Lexer {
+    private SymbolTable symbolTable;
+
+    public Lexer(SymbolTable symbolTable) {
+        this.symbolTable = symbolTable;
+    }
     public List<Token> tokenise(String input) {
         List<Token> tokens = new ArrayList<>(); //list of tokens
 
@@ -53,6 +58,9 @@ public class Lexer {
 
                 //Using regex, the identifier is validated to check if it follows naming conventions
                 if (RegexUtil.VALID_IDENTIFIER.matcher(idStr).matches()) {
+                    if (!symbolTable.contains(idStr)) {
+                        symbolTable.insert(idStr);
+                    }
                     tokens.add(new Token(TokenType.ID, idStr));
                     continue;
                 } else {
