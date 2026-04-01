@@ -17,7 +17,7 @@ public class Parser {
     public Parser(List<Token> tokens, SymbolTable symbolTable) {
         this.tokens = tokens;
         this.pos = 0;
-        this.current = tokens.getFirst();
+        this.current = tokens.get(0);
         this.symbolTable = symbolTable;
     }
 
@@ -119,7 +119,7 @@ public class Parser {
             String name = (String) current.value;
 
             SymbolTable.Symbol symbol = symbolTable.getOrInsert(name);
-            System.out.println(symbol.getValue() + " ");
+            System.out.print(symbol.getValue() + " ");
             advance();
         } else {
             throw new RuntimeException(
@@ -132,9 +132,9 @@ public class Parser {
     // main — test it here
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter an expression (or 'quit' to exit):");
 
-        while (scanner.hasNextLine()) {
+        while (true) {
+            System.out.print("Enter an expression (or 'quit' to exit): ");
             String input = scanner.nextLine().trim();
             if (input.equalsIgnoreCase("quit")) break;
             if (input.isEmpty()) continue;
@@ -146,12 +146,13 @@ public class Parser {
                 if (tokens.isEmpty()) continue;  // lexer already printed error
                 Parser parser = new Parser(tokens, symbolTable);
                 parser.expr();
-                System.out.println();
             } catch (RuntimeException e) {
                 System.out.println("\n" + e.getMessage());
             }
             System.out.println();
         }
+
         scanner.close();
+        System.out.println("Closing Parser...");
     }
 }
